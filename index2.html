@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¿Quieres ser mi novia?</title>
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function(){
+      emailjs.init("9-0-cG2mCUes3aLHP"); // Reemplaza con tu User ID de EmailJS
+    })();
+  </script>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      font-family: 'Arial', sans-serif;
+    }
+
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      max-width: 400px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    button {
+      padding: 0.8rem 1.5rem;
+      margin: 0.5rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    .yes {
+      background-color: #8bc34a;
+      color: white;
+    }
+
+    .no {
+      background-color: #e57373;
+      color: white;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1 id="question">¿Quieres ser mi novia?</h1>
+    <button class="yes" onclick="handleYes()">Sí</button>
+    <button class="no" onclick="handleNo()">No</button>
+  </div>
+
+  <audio id="celebrationSound" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+
+  <script>
+    function handleYes() {
+      const question = document.getElementById('question');
+      const buttons = document.querySelectorAll('button');
+      const sound = document.getElementById('celebrationSound');
+
+      question.textContent = '🎉 ¡Felicidades! Ahora eres mi novia 🎉';
+      buttons.forEach(button => button.classList.add('hidden'));
+      sound.play();
+
+      // Enviar correo con EmailJS
+      emailjs.send("service_dyqnex4", "template_w7wtb92", {
+        to_name: "Nombre de la destinataria",
+        message: "¡Dijo que sí! 🎉 Ahora son novios 😍",
+      }).then(function(response) {
+        console.log("Correo enviado con éxito!", response.status, response.text);
+      }, function(error) {
+        console.log("Error al enviar el correo", error);
+      });
+    }
+
+    function handleNo() {
+      const question = document.getElementById('question');
+      const messages = [
+        'Creo que no entendiste bien la pregunta 🤔',
+        'Volvamos a intentarlo 😅',
+        'Presta atención, por favor 🙃',
+        'Decí que sí... 😶',
+        'Yo sé que queres 😙'
+      ];
+      question.textContent = messages[Math.floor(Math.random() * messages.length)];
+    }
+  </script>
+</body>
+</html>
